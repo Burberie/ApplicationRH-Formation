@@ -11,7 +11,8 @@ import lombok.Setter;
 public class DBUser {
 
     @Id
-    private Long id = 0l;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String email;
     private String password;
     private String lastname;
@@ -21,7 +22,6 @@ public class DBUser {
     public DBUser() {}
 
     public DBUser(String email, String password, String lastname, String firstname, String role) {
-        this.id++;
         this.email = email;
         this.password = password;
         this.lastname = lastname;
