@@ -10,13 +10,15 @@ import lombok.Setter;
 @Setter
 public class DBUser {
 
-@Id
+    @Id
     private Long id = 0l;
-private String email;
- private String password;
-private String lastname;
- private String firstname;
- private String role;
+    private String email;
+    private String password;
+    private String lastname;
+    private String firstname;
+    private String role;
+
+    public DBUser() {}
 
     public DBUser(String email, String password, String lastname, String firstname, String role) {
         this.id++;
