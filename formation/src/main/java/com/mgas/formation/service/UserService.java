@@ -31,7 +31,11 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public DBUser replaceUser(@RequestBody DBUser user, @PathVariable Long id) {
+    public List<DBUser> saveUsers(@RequestBody List<DBUser> users) {
+        return userRepository.saveAll(users);
+    }
+
+    public DBUser updateUser(@RequestBody DBUser user, @PathVariable Long id) {
         return userRepository.findById(id).map(u -> {
             u.setEmail(user.getEmail());
             u.setPassword(user.getPassword());
