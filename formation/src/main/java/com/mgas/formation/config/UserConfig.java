@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UserConfig {
     @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
+    public Jackson2ObjectMapperBuilderCustomizer emptyEnumString() {
         return builder -> builder.postConfigurer(objectMapper -> {
             objectMapper.coercionConfigFor(LogicalType.Enum)
                     .setCoercion(CoercionInputShape.EmptyString, CoercionAction.AsNull);

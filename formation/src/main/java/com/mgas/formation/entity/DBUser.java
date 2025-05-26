@@ -1,15 +1,13 @@
 package com.mgas.formation.entity;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mgas.formation.enumeration.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.context.annotation.Bean;
 
 import java.util.Date;
 
@@ -36,6 +34,7 @@ public class DBUser {
     @Column(name = "firstname")
     private String firstname;
     @NotNull(message = "This field is mandatory")
+    @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
     @Column(name = "birthdate")
     private Date birthdate;
     @NotNull(message = "This field is mandatory")
@@ -52,20 +51,4 @@ public class DBUser {
         this.birthdate = birthdate;
         this.role = role;
     }
-
-    /*public boolean hasEmptyField() {
-        return this.email.isEmpty() || this.password.isEmpty() || this.lastname.isEmpty() || this.firstname.isEmpty() || this.birthdate == null || this.role.toString().isEmpty();
-    }
-
-    public String EmptyFields() {
-        boolean coma = false;
-        String s = "";
-        if (this.email.isEmpty()) {coma = true; s = s + "Email";}
-        if (this.password.isEmpty()) {if (coma) {s = s + ", ";} coma = true; s = s + "Password";}
-        if (this.lastname.isEmpty()) {if (coma) {s = s + ", ";} coma = true; s = s + "Lastname";}
-        if (this.firstname.isEmpty()) {if (coma) {s = s + ", ";} coma = true; s = s + "Firstname";}
-        if (this.birthdate == null) {if (coma) {s = s + ", ";} coma = true; s = s + "Birthdate";}
-        if (this.role.name().isEmpty()) {if (coma) {s = s + ", ";} s = s + "Role";}
-        return s;
-    }*/
 }
