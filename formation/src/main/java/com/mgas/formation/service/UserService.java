@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -41,6 +40,7 @@ public class UserService {
             u.setPassword(user.getPassword());
             u.setLastname(user.getLastname());
             u.setFirstname(user.getFirstname());
+            u.setBirthdate(user.getBirthdate());
             u.setRole(user.getRole());
             return userRepository.save(u);
         }).orElseGet(() -> {

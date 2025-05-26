@@ -1,18 +1,19 @@
 package com.mgas.formation.controller;
 
 import com.mgas.formation.entity.DBUser;
+import com.mgas.formation.exception.UserBirthdateNotValidException;
 import com.mgas.formation.service.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.executable.ValidateOnExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -39,15 +40,12 @@ public class UserController {
     @ValidateOnExecution
     @PostMapping(value = "/save")
     public DBUser saveUser(@Valid @RequestBody DBUser user) throws Exception {
-        /*try {
-            if (user.hasEmptyField()) {
-                throw new UserEmptyFieldException(user);
-            }*/
-            return userService.saveUser(user);
-        /*} catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }*/
+        Calendar verifyDate = Calendar.getInstance();
+        verifyDate.add(Calendar.YEAR, -18);
+        if (user.getBirthdate().getTime() > verifyDate.getTime().getTime()) {
+            throw new UserBirthdateNotValidException();
+        }
+        return userService.saveUser(user);
     }
 
     @PostMapping(value = "/save/list")
@@ -75,5 +73,11 @@ public class UserController {
             errors.put(fieldName, errorMessage);
         });
         return errors;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<String> wrongArgumentExceptions(HttpMessageNotReadableException ex) {
+        return new ResponseEntity<String>("(HttpMessageNotReadableException) Wrong argument on some fields.\n\nBe sure 'birthdate' has the Date format 'DD/MM/YYYY'\nand that 'role' is either 'USER', 'MANAGER' or 'ADMIN'.", HttpStatus.BAD_REQUEST);
     }
 }
