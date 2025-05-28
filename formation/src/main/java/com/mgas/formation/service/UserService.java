@@ -40,12 +40,16 @@ public class UserService {
             u.setPassword(user.getPassword());
             u.setLastname(user.getLastname());
             u.setFirstname(user.getFirstname());
-            u.setBirthdate(user.getBirthdate());
+            u.setUsername(user.getUsername());
+            u.setRegister_num(user.getRegister_num());
+            u.setRegister_date(user.getRegister_date());
+            u.setSeniority_date(user.getSeniority_date());
+            u.setEnd_date(user.getEnd_date());
             u.setRole(user.getRole());
+            u.setService(user.getService());
+            u.setContract(user.getContract());
             return userRepository.save(u);
-        }).orElseGet(() -> {
-           return userRepository.save(user);
-        });
+        }).orElseGet(() -> userRepository.save(user));
     }
 
     public void deleteById(@PathVariable Long id) {
