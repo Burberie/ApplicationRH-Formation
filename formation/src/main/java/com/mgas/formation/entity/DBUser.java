@@ -13,7 +13,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -30,19 +33,19 @@ public class DBUser {
     @NotBlank(message = "Email must not be blank.")
     @Column(name = "email")
     private String email;
+    @NotBlank(message = "Username must not be blank.")
+    @Column(name = "username")
+    private String username;
     @NotBlank(message = "Password must not be blank.")
     @Column(name = "password")
     private String password;
-    @NotBlank(message = "Last Name must not be blank.")
+    /*@NotBlank(message = "Last Name must not be blank.")
     @Column(name = "lastname")
     private String lastname;
     @NotBlank(message = "First Name must not be blank.")
     @Column(name = "firstname")
-    private String firstname;
-    @NotBlank(message = "Username must not be blank.")
-    @Column(name = "username")
-    private String username;
-    @NotBlank(message = "Register Number must not be blank.")
+    private String firstname;*/
+    /*@NotBlank(message = "Register Number must not be blank.")
     @Column(name = "register_num")
     private String register_num;
     @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
@@ -55,10 +58,11 @@ public class DBUser {
     @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
     @Column(name = "end_date")
     private Date end_date;
-    @JsonSetter(contentNulls = Nulls.SKIP)
-    @NotEmpty(message = "Role only accept list containing 0:'SI', 1:'ADMIN', 2:'TRAINER', 3:'MANAGER' or 4:'COLLABORATOR'.")
+    @JsonSetter(contentNulls = Nulls.SKIP)*/
+    @NotEmpty(message = "Role only accept list containing 0:'SYSTEM', 1:'ADMIN', 2:'TRAINER', 3:'MANAGER' or 4:'COLLABORATOR'.")
     @Column(name = "role")
-    private List<Role_ENUM> role;
+    private String role;
+    /*private List<Role_ENUM> role;
     @NotNull(message = "Service only accept 0:'HR_SERVICE', 1:'CS_SERVICE', 2:'LEGAL_REGULATORY', 3:'INTERNAL_CONTROL', 4:'GENERAL_RESOURCES', 5:'AF_MANAGEMENT', 6:'OP_MANAGEMENT', 7:'MD_MANAGEMENT' and 8:'JRPD_MANAGEMENT'.")
     @Column(name = "service")
     private Service_ENUM service;
@@ -66,12 +70,12 @@ public class DBUser {
     @Column(name = "contract")
     private Contract_ENUM contract;
     @Column(name = "isActive")
-    private boolean isActive;
+    private boolean isActive;*/
 
 
     public DBUser() {}
 
-    public DBUser(String email, String password, String lastname, String firstname, String username, String register_num, Date seniority_date, Date end_date, List<Role_ENUM> role, Service_ENUM service, Contract_ENUM contract) {
+    /*public DBUser(String email, String password, String lastname, String firstname, String username, String register_num, Date seniority_date, Date end_date, List<Role_ENUM> role, Service_ENUM service, Contract_ENUM contract) {
         this.email = email;
         this.password = password;
         this.lastname = lastname;
@@ -83,5 +87,13 @@ public class DBUser {
         this.role = role;
         this.service = service;
         this.contract = contract;
+    }*/
+
+    public DBUser(Long id, String email, String username, String password, String role) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 }
