@@ -1,12 +1,13 @@
 package com.mgas.formation.handler;
 
+import com.mgas.formation.exception.IllegalRegisterDetailsException;
+import com.mgas.formation.exception.UserAlreadyExistsException;
 import com.mgas.formation.exception.UserDateNotValidException;
 import com.mgas.formation.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -62,6 +63,18 @@ public class UserExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<String> userNotFoundException(UserNotFoundException ex) {
         return new ResponseEntity<String>("(UserNotFoundException) " + ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalRegisterDetailsException.class)
+    public ResponseEntity<String> illegalRegisterDetailsException(IllegalRegisterDetailsException ex) {
+        return new ResponseEntity<String>("(IllegalRegisterDetailsException) " + ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<String> userAlreadyExistsException(UserAlreadyExistsException ex) {
+        return new ResponseEntity<String>("(UserAlreadyExistsException) " + ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ResponseBody

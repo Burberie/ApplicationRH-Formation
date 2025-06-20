@@ -1,16 +1,4 @@
-DROP TABLE IF EXISTS dbuser;
+INSERT INTO users (email, username, password, lastname, firstname, register_num, register_date, seniority_date, end_date, service, contract, is_active) VALUES
+('admin@email.com', 'admin', '$2a$10$zaiiueHY0DK4KzRriYs0/.NjWapsk9j7a.0D62R0GdgO4qxlOdfqa', 'ad', 'min', '000000', NOW(), '2010-01-01', '2099-12-31', 'HR_SERVICE', 'PM_CONTRACT', TRUE);
 
-CREATE TABLE dbuser (
-  id INT AUTO_INCREMENT  PRIMARY KEY,
-  email VARCHAR(250) NOT NULL,
-  username VARCHAR(250) NOT NULL,
-  password VARCHAR(250) NOT NULL,
-  role VARCHAR(250) NOT NULL
-);
-
---INSERT INTO dbuser (email, username, password, role) VALUES
---('collaborator@email.com', 'collaborator', '$2a$10$SXhFTaySGM5fhps5jSQrEunNJKB3eH1IQdYcFvFN/wVfDqKw0dSl.', 'COLLABORATOR'),
---('manager@email.com', 'manager', '$2a$10$fwcd.ds.IIKVtoBr60RvYe8Qn.ejHKRG30HIRxIiNoeAnematc7Aq', 'MANAGER'),
---('trainer@email.com', 'trainer', '$2a$10$u27UUoZWV.aUAszRAMsb2OdIMnh/lzECREO2OwaWQ.svFlFqGnVQS', 'TRAINER'),
---('admin@email.com', 'admin', '$2a$10$Ntv83Euk.VKneIp5.ZtNwuuRJzyG68/5BeSIpK55BZwRzniz4wi26', 'ADMIN'),
---('system@email.com', 'system', '$2a$10$pTyq/7VEWpF6KozQYDXUKeVv.AT94VcJJYL2wlNCByfDOIJgPwCrO', 'SYSTEM');
+INSERT INTO user_role (user_id, role_name) VALUES (1, 'ADMIN');
