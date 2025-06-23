@@ -2,6 +2,7 @@ package com.mgas.formation.controller;
 
 import com.mgas.formation.entity.User;
 import com.mgas.formation.exception.IllegalRegisterDetailsException;
+import com.mgas.formation.exception.InvalidPasswordException;
 import com.mgas.formation.exception.UserNotFoundException;
 import com.mgas.formation.model.UserDTO;
 import com.mgas.formation.repository.UserRepository;
@@ -12,7 +13,6 @@ import jakarta.validation.executable.ValidateOnExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,19 +31,14 @@ public class AuthController {
         this.jwtService = jwtService;
     }
 
-    @GetMapping("/")
-    public String getResource() {
-        return "a value...";
-    }
-
     @PostMapping("/login")
     public String getToken(@RequestBody UserDTO user) throws RuntimeException {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User userDB = userRepository.findByUsername(user.getUsername()).orElseThrow(() -> new UserNotFoundException(user.getUsername()));
         if (passwordEncoder.matches(user.getPassword(), userDB.getPassword())) {
-            return jwtService.generateToken(user.getUsername()); // Return JWT
+            return jwtService.generateToken(user.getUsername());
         }
-        throw new RuntimeException("Invalid credentials");
+        throw new InvalidPasswordException();
     }
 
     @ValidateOnExecution

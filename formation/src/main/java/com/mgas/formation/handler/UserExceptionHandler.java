@@ -1,9 +1,6 @@
 package com.mgas.formation.handler;
 
-import com.mgas.formation.exception.IllegalRegisterDetailsException;
-import com.mgas.formation.exception.UserAlreadyExistsException;
-import com.mgas.formation.exception.UserDateNotValidException;
-import com.mgas.formation.exception.UserNotFoundException;
+import com.mgas.formation.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -75,6 +72,12 @@ public class UserExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<String> userAlreadyExistsException(UserAlreadyExistsException ex) {
         return new ResponseEntity<String>("(UserAlreadyExistsException) " + ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<String> invalidPasswordException(InvalidPasswordException ex) {
+        return new ResponseEntity<String>("(InvalidPasswordException) " + ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ResponseBody
