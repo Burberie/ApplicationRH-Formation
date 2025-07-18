@@ -31,10 +31,8 @@ public class SecurityConfig {
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/h2-console/**").permitAll();
-                    auth.requestMatchers("/login").permitAll();
-                    auth.requestMatchers("/register").permitAll();
-                    auth.anyRequest().authenticated();
+                    auth.requestMatchers("/users/**").authenticated();
+                    auth.anyRequest().permitAll();
                 }).httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
                 .build();

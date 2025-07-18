@@ -62,7 +62,14 @@ public class UserService {
     }
 
     public UserDTO updateUser(@RequestBody UserDTO user, @PathVariable Long id) {
-        autoSetUser(user);
+        if (!userRepository.findById(id).equals(userRepository.findByUsername(user.getUsername()))) {
+            if (userRepository.existsByUsername(user.getUsername())) { throw new UserAlreadyExistsException("User '" + user.getUsername() + "'"); }
+            if (userRepository.existsByEmail(user.getEmail())) { throw new UserAlreadyExistsException("Email '" + user.getEmail() + "'"); }
+        }
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getSeniority_date() == null) { user.setSeniority_date(user.getRegister_date()); }
+        if (user.getRole() == null || user.getRole().isEmpty()) { Set<RoleEnum> role = new HashSet<>(); role.add(RoleEnum.COLLABORATOR); user.setRole(role); }
         User userDB = userRepository.findById(id).map(u -> {
             u.setEmail(userMapper.userToDBUser(user).getEmail());
             u.setPassword(userMapper.userToDBUser(user).getPassword());
